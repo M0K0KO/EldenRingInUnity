@@ -12,7 +12,10 @@ namespace SG
 
         PlayerControls playerControls;
 
-        [SerializeField] Vector2 movement;
+        [SerializeField] Vector2 movementInput;
+        public float verticalInput;
+        public float horizontalInput;
+        public float moveAmount;
 
         private void Awake()
         {
@@ -58,7 +61,7 @@ namespace SG
             {
                 playerControls = new PlayerControls();
 
-                playerControls.PlayerMovement.Movement.performed += i => movement = i.ReadValue<Vector2>();
+                playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             }
 
             playerControls.Enable();
@@ -68,6 +71,43 @@ namespace SG
         {
             // 이 OBJECT를 삭제하면, EVENT로부터 DETACH
             SceneManager.activeSceneChanged -= OnSceneChange;
+        }
+
+        private void OnApplicationFocus(bool focus)
+        {
+            if (enabled)
+            {
+                if (focus)
+                {
+                    playerControls.Enable();
+                }
+                else
+                {
+                    playerControls.Disable();
+                }
+            }
+        }
+
+        private void Update()
+        {
+            HandleMovementInput();
+        }
+
+        private void HandleMovementInput()
+        {
+            verticalInput = movementInput.y;
+            horizontalInput = movementInput.x;
+
+            moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
+
+            if (moveAmount <= 0.5 && moveAmount > 0) 
+            {
+                moveAmount = 0.5f;
+            }
+            else if (moveAmount > 0.5 && moveAmount <= 1)
+            {
+                moveAmount = 1;
+            }
         }
     }
 }
