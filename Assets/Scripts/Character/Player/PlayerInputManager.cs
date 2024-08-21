@@ -11,10 +11,6 @@ namespace SG
         public static PlayerInputManager instance;
         public PlayerManager player;
 
-        public bool isSprint;
-        public float holdTime = 1f;
-        public float curTime;
-
         PlayerControls playerControls;
 
         [Header("MOVEMENT INPUT")]
@@ -110,21 +106,9 @@ namespace SG
         {
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                curTime += Time.deltaTime;
-                if (curTime > holdTime)
-                {
-                    verticalInput = movementInput.y * 2f;
-                    horizontalInput = movementInput.x;
-                }
-                else
-                {
-                    verticalInput = movementInput.y;
-                    horizontalInput = movementInput.x;
-                }
-            }
-            else if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                curTime = 0f;
+                verticalInput = movementInput.y;
+                horizontalInput = movementInput.x;
+
             }
             else
             {
