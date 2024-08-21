@@ -8,6 +8,7 @@ namespace SG
     public class PlayerInputManager : MonoBehaviour
     {
         public static PlayerInputManager instance;
+        public PlayerManager player;
 
 
         PlayerControls playerControls;
@@ -108,6 +109,8 @@ namespace SG
 
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
+
+            // CLAMPING THE VALUES, VALUE CAN ONLY BE 0, 0.5 OR 1
             if (moveAmount <= 0.5 && moveAmount > 0) 
             {
                 moveAmount = 0.5f;
@@ -116,6 +119,16 @@ namespace SG
             {
                 moveAmount = 1;
             }
+
+            // WHY 0? WE ONLY WANT NOT-STRAFING MOVEMENT;
+            // WE USE THE HORIZONTAL WHEN WE ARE STRAFING OR LOCKED ON
+
+            if (player == null)
+                return;
+            // IF WE ARE NOT LOCKED ON, ONLY USE THE MOVE AMOUNT
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+
+            // IF WE ARE LOCKED ON PASSS THE HORIZONTAL MOVEMENT AS WELL
         }
 
         private void HandleCameraMovementInput()
