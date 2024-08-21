@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace SG
@@ -10,6 +11,9 @@ namespace SG
         public static PlayerInputManager instance;
         public PlayerManager player;
 
+        public bool isSprint;
+        public float holdTime = 1f;
+        public float curTime;
 
         PlayerControls playerControls;
 
@@ -104,9 +108,30 @@ namespace SG
 
         private void HandlePlayerMovementInput()
         {
-            verticalInput = movementInput.y;
-            horizontalInput = movementInput.x;
-
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                curTime += Time.deltaTime;
+                if (curTime > holdTime)
+                {
+                    verticalInput = movementInput.y * 2f;
+                    horizontalInput = movementInput.x;
+                }
+                else
+                {
+                    verticalInput = movementInput.y;
+                    horizontalInput = movementInput.x;
+                }
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                curTime = 0f;
+            }
+            else
+            {
+                verticalInput = movementInput.y * 0.2f;
+                horizontalInput = movementInput.x * 0.2f;
+            }
+            Debug.Log(verticalInput);
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
 
