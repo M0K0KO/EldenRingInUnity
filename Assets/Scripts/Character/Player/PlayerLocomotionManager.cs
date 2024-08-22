@@ -19,6 +19,7 @@ namespace SG
         private Vector3 targetRotationDirection;
         [SerializeField] float walkingSpeed = 2;
         [SerializeField] float runningSpeed = 5;
+        [SerializeField] float sprintingSpeed = 6.5f;
         [SerializeField] float rotationSpeed = 15;
 
         [Header("Dodge")]
@@ -48,7 +49,7 @@ namespace SG
                 moveAmount = player.characterNetworkManager.moveAmount.Value;
 
                 // IF NOT LOCKED ON, PASS MOVE AMOUNT
-                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+                player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
 
                 // IF LOCKED ON< PASS HORZ AND VER VALUE
             }
@@ -82,16 +83,25 @@ namespace SG
             moveDirection.Normalize();
             moveDirection.y = 0;
 
-            if (PlayerInputManager.instance.moveAmount > 0.5f)
+            if (player.playerNetworkManager.isSprinting.Value)
             {
-                // ¥ﬁ∑¡¿’
-                player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                player.characterController.Move(moveDirection * sprintingSpeed * Time.deltaTime);
             }
-            else if (PlayerInputManager.instance.moveAmount <= 0.5f)
+            else
             {
-                //∞…æÓ¿’
-                player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+                if (PlayerInputManager.instance.moveAmount > 0.5f)
+                {
+                    // ¥ﬁ∑¡¿’
+                    player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
+                }
+                else if (PlayerInputManager.instance.moveAmount <= 0.5f)
+                {
+                    //∞…æÓ¿’
+                    player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
+                }
             }
+
+
         }
 
         private void HandleRotation()
@@ -136,7 +146,28 @@ namespace SG
             else
             {
                 //πÈΩ∫≈‹
+                player.playerAnimatorManager.PlayTargetActionAnimation("Back_Step_01", true, true);
+            }
+        }
 
+        public void HandleSprinting ()
+        {
+            if (player.isPerformingAction)
+            {
+                // SET SPRINTING TO FALSE
+                player.playerNetworkManager.isSprinting.Value = false;
+            }
+
+            // STAMINA ISSUES
+
+            // IF WE ARE MOVING, SET SPRINTING TO TRUE
+            if (moveAmount >= 0.5)
+            {
+                player.playerNetworkManager.isSprinting.Value = true;
+            }
+            else
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
             }
         }
     }

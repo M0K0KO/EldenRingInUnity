@@ -26,6 +26,7 @@ namespace SG
 
         [Header("PLAYER ACTION INPUT")]
         [SerializeField] bool dodgeInput = false;
+        [SerializeField] bool sprintInput = false;
 
         private void Awake()
         {
@@ -74,6 +75,10 @@ namespace SG
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
                 playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+
+
+                playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+                playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
             }
 
             playerControls.Enable();
@@ -110,6 +115,7 @@ namespace SG
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
             HandleDodgeInput();
+            HandleSprinting();
         }
 
         // MOVEMENT
@@ -146,7 +152,7 @@ namespace SG
             if (player == null)
                 return;
             // IF WE ARE NOT LOCKED ON, ONLY USE THE MOVE AMOUNT
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
 
             // IF WE ARE LOCKED ON PASSS THE HORIZONTAL MOVEMENT AS WELL
         }
@@ -169,6 +175,18 @@ namespace SG
 
                 // PERFORM A DODGE
                 player.playerLocomotionManager.AttemptToPerformDodge();
+            }
+        }
+
+        private void HandleSprinting()
+        {
+            if (sprintInput)
+            {
+                player.playerLocomotionManager.HandleSprinting();
+            }
+            else
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
             }
         }
     }
