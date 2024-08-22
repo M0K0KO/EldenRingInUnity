@@ -13,16 +13,19 @@ namespace SG
 
         PlayerControls playerControls;
 
+        [Header("CAMERA MOVEMENT INPUT")]
+        [SerializeField] Vector2 cameraInput;
+        public float cameraVerticalInput;
+        public float cameraHorizontalInput;
+
         [Header("MOVEMENT INPUT")]
         [SerializeField] Vector2 movementInput;
         public float verticalInput;
         public float horizontalInput;
         public float moveAmount;
 
-        [Header("CAMERA MOVEMENT INPUT")]
-        [SerializeField] Vector2 cameraInput;
-        public float cameraVerticalInput;
-        public float cameraHorizontalInput;
+        [Header("PLAYER ACTION INPUT")]
+        [SerializeField] bool dodgeInput = false;
 
         private void Awake()
         {
@@ -70,6 +73,7 @@ namespace SG
 
                 playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
                 playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+                playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
             }
 
             playerControls.Enable();
@@ -98,22 +102,29 @@ namespace SG
 
         private void Update()
         {
+            HandleAllInputs();
+        }
+
+        private void HandleAllInputs()
+        {
             HandlePlayerMovementInput();
             HandleCameraMovementInput();
+            HandleDodgeInput();
         }
+
+        // MOVEMENT
 
         private void HandlePlayerMovementInput()
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                verticalInput = movementInput.y;
-                horizontalInput = movementInput.x;
-
+            if (Input.GetKey(KeyCode.LeftAlt))
+            {                
+                verticalInput = movementInput.y * 0.2f;
+                horizontalInput = movementInput.x * 0.2f;
             }
             else
             {
-                verticalInput = movementInput.y * 0.2f;
-                horizontalInput = movementInput.x * 0.2f;
+                verticalInput = movementInput.y;
+                horizontalInput = movementInput.x;
             }
             Debug.Log(verticalInput);
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
@@ -144,6 +155,21 @@ namespace SG
         {
             cameraVerticalInput = cameraInput.y;
             cameraHorizontalInput = cameraInput.x;
+        }
+
+        //ACTIONS
+
+        private void HandleDodgeInput()
+        {
+            if (dodgeInput)
+            {
+                dodgeInput = false;
+
+                // RETURN IF MENU OR UI WINDOW IS OPEN
+
+                // PERFORM A DODGE
+                player.playerLocomotionManager.AttemptToPerformDodge();
+            }
         }
     }
 }
