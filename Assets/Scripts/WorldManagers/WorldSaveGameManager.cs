@@ -9,7 +9,7 @@ namespace SG
     {
         public static WorldSaveGameManager instance;
 
-        [SerializeField] PlayerManager player;
+        public PlayerManager player;
 
         [Header("SAVE/LOAD")]
         [SerializeField] bool saveGame;
@@ -115,11 +115,32 @@ namespace SG
             return fileName;
         }
 
-        public void CreateNewGame()
+        public void AttemptToCreateNewGame()
         {
-            saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(currentCharacterSlotBeingUsed);
+            saveFileDataWriter = new SaveFileDataWriter();
+            saveFileDataWriter.saveDataDirectoryPath = Application.persistentDataPath;
 
-            currentCharacterData = new CharacterSaveData();
+            saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
+
+            if (!saveFileDataWriter.CheckToSeeIfFileExists())
+            {
+                currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
+                currentCharacterData = new CharacterSaveData();
+                StartCoroutine(LoadWorldScene());
+                return;
+            }
+
+            saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
+
+            if (!saveFileDataWriter.CheckToSeeIfFileExists())
+            {
+                currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_02;
+                currentCharacterData = new CharacterSaveData();
+                StartCoroutine(LoadWorldScene());
+                return;
+            }
+
+            TitleScreenManager.Instance.DisplayNoFreeCharacterSlotsPopUp();
         }
 
         public void LoadGame()
@@ -191,6 +212,8 @@ namespace SG
         public IEnumerator LoadWorldScene()
         {
             AsyncOperation loadOperation = SceneManager.LoadSceneAsync(worldSceneIndex);
+
+            player.LoadGameToCurrentCharacterData(ref currentCharacterData);
 
             yield return null;
         }
