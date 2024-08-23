@@ -80,7 +80,7 @@ namespace SG
                         characterData = JsonUtility.FromJson<CharacterSaveData>(dataToLoad);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     
                 }
