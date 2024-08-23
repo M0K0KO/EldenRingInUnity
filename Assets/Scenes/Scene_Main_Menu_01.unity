@@ -1332,6 +1332,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 187227476588377057, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 187227476588377057, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 187227476588377057, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1388690866027419543, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1960584192025397796, guid: ea2d2e54490cbd648993e7420d06057e,
         type: 3}
       propertyPath: m_RootOrder
@@ -1387,10 +1407,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2095559739202422894, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095559739202422894, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3948438250425844246, guid: ea2d2e54490cbd648993e7420d06057e,
         type: 3}
       propertyPath: m_Name
       value: Player UI Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982457012291975540, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131767950959411053, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131767950959411053, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131767950959411053, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7131767950959411053, guid: ea2d2e54490cbd648993e7420d06057e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea2d2e54490cbd648993e7420d06057e, type: 3}

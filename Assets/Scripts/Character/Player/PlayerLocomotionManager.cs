@@ -21,9 +21,11 @@ namespace SG
         [SerializeField] float runningSpeed = 5;
         [SerializeField] float sprintingSpeed = 6.5f;
         [SerializeField] float rotationSpeed = 15;
+        [SerializeField] int sprintingStaminaCost = 2;
 
         [Header("Dodge")]
         private Vector3 rollDirection;
+        [SerializeField] float dodgeStaminaCost = 25;
 
         protected override void Awake()
         {
@@ -129,6 +131,8 @@ namespace SG
         {
             if (player.isPerformingAction)
                 return;
+            if (player.playerNetworkManager.currentStamina.Value <= 0)
+                return;
 
             if (PlayerInputManager.instance.moveAmount > 0)
             {
@@ -148,6 +152,8 @@ namespace SG
                 //πÈΩ∫≈‹
                 player.playerAnimatorManager.PlayTargetActionAnimation("Back_Step_01", true, true);
             }
+
+            player.playerNetworkManager.currentStamina.Value -= dodgeStaminaCost;
         }
 
         public void HandleSprinting ()
@@ -159,6 +165,11 @@ namespace SG
             }
 
             // STAMINA ISSUES
+            if (player.playerNetworkManager.currentStamina.Value <= 0)
+            {
+                player.playerNetworkManager.isSprinting.Value = false;
+                return;
+            }
 
             // IF WE ARE MOVING, SET SPRINTING TO TRUE
             if (moveAmount >= 0.5)
@@ -168,6 +179,11 @@ namespace SG
             else
             {
                 player.playerNetworkManager.isSprinting.Value = false;
+            }
+
+            if (player.playerNetworkManager.isSprinting.Value)
+            {
+                player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
             }
         }
     }

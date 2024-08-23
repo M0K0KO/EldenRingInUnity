@@ -132,7 +132,7 @@ namespace SG
                 verticalInput = movementInput.y;
                 horizontalInput = movementInput.x;
             }
-            Debug.Log(verticalInput);
+            //Debug.Log(verticalInput);
             moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
 

@@ -11,6 +11,8 @@ namespace SG
         [Header("NETWORK JOIN")]
         [SerializeField] bool startGameAsClient;
 
+        [HideInInspector] public PlayerUIHudManager playerUIHudManager;
+
         private void Awake()
         {
             if (instance == null)
@@ -21,6 +23,8 @@ namespace SG
             {
                 Destroy(gameObject);
             }
+            
+            playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
         }
 
         private void Start()
