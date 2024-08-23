@@ -65,5 +65,20 @@ namespace SG
                 PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
             }
         }
+
+        public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            currentCharacterData.characterName = playerNetworkManager.characternName.Value.ToString();
+            currentCharacterData.xPosition = transform.position.x;
+            currentCharacterData.yPosition = transform.position.y;
+            currentCharacterData.zPosition = transform.position.z;
+        }
+
+        public void LoadGameToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
+        {
+            playerNetworkManager.characternName.Value = currentCharacterData.characterName;
+            Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
+            transform.position = myPosition;
+        }
     }
 }
