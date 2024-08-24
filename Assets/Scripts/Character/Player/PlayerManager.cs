@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 namespace SG
 {
@@ -60,6 +60,8 @@ namespace SG
                 playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
                 playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegeneTimer;
 
+                playerNetworkManager.endurance.Value = 10;
+
                 playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
                 playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(playerNetworkManager.endurance.Value);
 
@@ -69,6 +71,9 @@ namespace SG
 
         public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
         {
+            currentCharacterData.sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+
             currentCharacterData.characterName = playerNetworkManager.characternName.Value.ToString();
             currentCharacterData.xPosition = transform.position.x;
             currentCharacterData.yPosition = transform.position.y;

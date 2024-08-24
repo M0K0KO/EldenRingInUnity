@@ -8,6 +8,9 @@ namespace SG
     [System.Serializable]
     public class CharacterSaveData
     {
+        [Header("SCENE INDEX")]
+        public int sceneIndex = 1;
+
         [Header("Character Name")]
         public string characterName = "Character";
 
