@@ -118,6 +118,7 @@ namespace SG
             HandleCameraMovementInput();
             HandleDodgeInput();
             HandleSprintInput();
+            HandleJumpInput();
         }
 
         // MOVEMENT

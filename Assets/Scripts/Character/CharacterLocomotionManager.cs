@@ -9,7 +9,7 @@ namespace SG {
         CharacterManager character;
 
         [Header("Ground Check & Jumping")]
-        [SerializeField] float gravityForce = -5.55f;
+        [SerializeField] protected float gravityForce = -5.55f;
         [SerializeField] LayerMask groundLayer;
         [SerializeField] float groundCheckSphereRadius = 1;
         // THE FORCE AT WHICH OUR CHARACTER IS PULLED UP OR DOWN (JUMPING OR FALLING)
@@ -55,7 +55,7 @@ namespace SG {
 
         protected void HandleGroundCheck()
         {
-            character.isGrounded = Physics.CheckSphere(character.transform.position, groundCheckSphereRadius, groundLayer);
+            character.isGrounded = Physics.CheckSphere(character.transform.position - Vector3.up * 0.1f, groundCheckSphereRadius, groundLayer);
         }
 
         protected void OnDrawGizmosSelected()
