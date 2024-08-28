@@ -35,7 +35,7 @@ namespace SG
             if (scaleBarLengthWithStats) 
             {
                 rectTransform.sizeDelta = new Vector2(maxValue * widthScaleMultiplier, rectTransform.sizeDelta.y);
-                //PlayerUIManager.instance.playerUIHudManager.RefreshHUD();
+                PlayerUIManager.instance.playerUIHudManager.RefreshHUD();
             }
         }
     }

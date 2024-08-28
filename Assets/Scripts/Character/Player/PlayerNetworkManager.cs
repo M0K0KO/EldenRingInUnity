@@ -20,15 +20,15 @@ namespace SG {
 
         public void SetNewMaxHealthValue(int oldVitality, int newVitality) 
         {
-            Debug.Log("Health Works");
             maxHealth.Value = player.playerStatsManager.CalculateHealthBasedOnVitalityLevel(newVitality);
+            PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(maxHealth.Value);
             currentHealth.Value = maxHealth.Value;
         }
 
         public void SetNewMaxStaminaValue(int oldEndurance, int newEndurance)
         {
-            Debug.Log("Stamina Works");
             maxStamina.Value = player.playerStatsManager.CalculateStaminaBasedOnEnduranceLevel(newEndurance);
+            PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(maxStamina.Value);
             currentStamina.Value = maxStamina.Value;
         }
     }
