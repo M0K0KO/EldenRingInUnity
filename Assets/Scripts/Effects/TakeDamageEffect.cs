@@ -49,7 +49,7 @@ namespace SG
 
         private void CalculateDamage (CharacterManager character)
         {
-            if (character.IsOwner)
+            if (character.IsOwner == false)
                 return;
 
             if (characterCausingDamage != null)

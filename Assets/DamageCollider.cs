@@ -24,7 +24,6 @@ namespace SG {
 
             if  (damageTarget != null)
             {
-                Debug.Log("Collided");
                 
                 contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
